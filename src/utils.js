@@ -26,3 +26,22 @@ export function createElement(name, props = {}, ...children) {
 
   return element;
 }
+
+/**
+ * Возвращает склонение, соответствующее переданному числу
+ * @param n {number}
+ * @returns {string} раз/раза
+ */
+
+export function getDeclination(n) {
+  const declination = ['раз', 'раза']
+  if (n > 1 && n < 5) return declination[1]
+  if (
+    (n > 20 && n < 30) &&
+    (n % 10) > 1 &&
+    (n % 10) < 5) {
+    return declination[1]
+  }
+  if (n > 30) return '(╯°□°）╯︵ ┻━┻)'
+  return declination[0]
+}

@@ -1,5 +1,5 @@
 import React from 'react';
-import {createElement} from './utils.js';
+import { createElement, getDeclination } from './utils.js';
 import './styles.css';
 
 /**
@@ -7,7 +7,7 @@ import './styles.css';
  * @param store {Store} Хранилище состояния приложения
  * @returns {React.ReactElement}
  */
-function App({store}) {
+function App({ store }) {
 
   const list = store.getState().list;
 
@@ -21,14 +21,20 @@ function App({store}) {
       </div>
       <div className='App-center'>
         <div className='List'>{
-          list.map(item =>
-            <div key={item.code} className='List-item'>
-              <div className={'Item' + (item.selected ? ' Item_selected' : '')}
-                   onClick={() => store.selectItem(item.code)}>
-                <div className='Item-code'>{item.code}</div>
-                <div className='Item-title'>{item.title}</div>
+          list.map(({ code, title, selected, countOfSelections }) =>
+            <div key={code} className='List-item'>
+              <div className={'Item' + (selected ? ' Item_selected' : '')}
+                onClick={() => store.selectItem(code)}>
+                <div className='Item-code'>{code}</div>
+                <div className='Item-title'>
+                  {title}
+                  {
+                    countOfSelections &&
+                    `| Выделяли ${countOfSelections} ${getDeclination(countOfSelections)}`
+                  }
+                </div>
                 <div className='Item-actions'>
-                  <button onClick={() => store.deleteItem(item.code)}>
+                  <button onClick={() => store.deleteItem(code)}>
                     Удалить
                   </button>
                 </div>
