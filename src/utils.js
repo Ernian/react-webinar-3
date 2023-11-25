@@ -30,18 +30,23 @@ export function createElement(name, props = {}, ...children) {
 /**
  * Возвращает склонение, соответствующее переданному числу
  * @param n {number}
- * @returns {string} раз/раза
+ * @param declinations {Array<string>} ['яблоко', 'яблок', 'яблока']
+ * @returns {string}
  */
 
-export function getDeclination(n) {
-  const declination = ['раз', 'раза']
-  if (n > 1 && n < 5) return declination[1]
-  if (
-    (n > 20 && n < 30) &&
-    (n % 10) > 1 &&
-    (n % 10) < 5) {
-    return declination[1]
+export function getDeclination(count = 0, declinations = ['раз', 'раз', 'раза']) {
+  if (count >= 11 && count <= 14) {
+    return declinations[1]
   }
-  if (n > 30) return '(╯°□°）╯︵ ┻━┻)'
-  return declination[0]
+  if (count.toString().endsWith('1')) {
+    return declinations[0]
+  }
+  if (
+    count.toString().endsWith('2') ||
+    count.toString().endsWith('3') ||
+    count.toString().endsWith('4')
+  ) {
+    return declinations[2]
+  }
+  return declinations[1]
 }
