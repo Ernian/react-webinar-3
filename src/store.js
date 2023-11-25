@@ -2,9 +2,9 @@
  * Хранилище состояния приложения
  */
 class Store {
-  constructor(initState = {}) {
+  constructor(initState = { list: [] }) {
     this.state = initState;
-    this.lastId = this.state?.list.length + 1 || 1
+    this.lastId = this.getMaxCode() + 1 || 1
     this.listeners = []; // Слушатели изменений состояния
   }
 
@@ -27,6 +27,17 @@ class Store {
    */
   getState() {
     return this.state;
+  }
+
+  /**
+ * Возвращает наибольший code элемента списка или null
+ * @returns {number | null}
+ */
+  getMaxCode() {
+    if (this.state.list.length) {
+      return Math.max(...this.state.list.map(item => item.code))
+    }
+    return null
   }
 
   /**
