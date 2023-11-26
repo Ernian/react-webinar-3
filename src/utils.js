@@ -35,7 +35,12 @@ export function createElement(name, props = {}, ...children) {
  */
 
 export function getDeclination(count = 0, declinations = ['раз', 'раз', 'раза']) {
-  if (count >= 11 && count <= 14) {
+  if (
+    count.toString().endsWith('11') ||
+    count.toString().endsWith('12') ||
+    count.toString().endsWith('13') ||
+    count.toString().endsWith('14')
+  ) {
     return declinations[1]
   }
   if (count.toString().endsWith('1')) {
