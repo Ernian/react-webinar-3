@@ -3,6 +3,7 @@ import List from "./components/list";
 import Controls from "./components/controls";
 import Head from "./components/head";
 import PageLayout from "./components/page-layout";
+import { Modal } from "./components/modal";
 
 /**
  * Приложение
@@ -11,11 +12,17 @@ import PageLayout from "./components/page-layout";
  */
 function App({ store }) {
 
-  const list = store.getState().list;
+  const { list, isCartOpen } = store.getState();
 
   const callbacks = {
     onAddToCart: useCallback((code) => {
       store.addItemToCart(code);
+    }, [store]),
+    onOpenCart: useCallback(() => {
+      store.openCart(true);
+    }, [store]),
+    onCloseCart: useCallback(() => {
+      store.closeCart(true);
     }, [store]),
   }
 
@@ -23,11 +30,17 @@ function App({ store }) {
     <PageLayout>
       <Head title='Приложение на чистом JS' />
       <Controls
-        openModal={callbacks.toDo}
+        openCart={callbacks.onOpenCart}
         countOfProductsInCart={store.getUniqueProductsCount()}
         totalPrice={store.getTotalPrice()}
       />
       <List list={list} onAddToCart={callbacks.onAddToCart} />
+      <Modal
+        isOpen={isCartOpen}
+        closeModal={callbacks.onCloseCart}
+      >
+        Modal
+      </Modal>
     </PageLayout>
   );
 }

@@ -6,6 +6,7 @@ class Store {
     this.state = initState;
     this.listeners = []; // Слушатели изменений состояния
     this.state.cart = {}; // Корзина {code:{product,count}}
+    this.state.isCartOpen = false; // Корзина {code:{product,count}}
   }
 
   /**
@@ -109,6 +110,26 @@ class Store {
     this.setState({
       ...this.state,
       cart: Object.fromEntries(products)
+    })
+  }
+
+  /**
+   * Открывает модальное окно корзины
+   */
+  openCart() {
+    this.setState({
+      ...this.state,
+      isCartOpen: true
+    })
+  }
+
+  /**
+   * Закрывает модальное окно корзины
+   */
+  closeCart() {
+    this.setState({
+      ...this.state,
+      isCartOpen: false
     })
   }
 }

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { plural } from '../../utils';
 import './style.css';
 
-function Controls({ openModal, countOfProductsInCart, totalPrice }) {
+function Controls({ openCart, countOfProductsInCart, totalPrice }) {
   const productsPlural = plural(countOfProductsInCart,
     {
       one: 'товар',
@@ -21,7 +21,7 @@ function Controls({ openModal, countOfProductsInCart, totalPrice }) {
             <span> пусто</span>
         }
       </div>
-      <button onClick={openModal}>Перейти</button>
+      <button onClick={openCart}>Перейти</button>
     </div>
   )
 }
