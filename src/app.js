@@ -4,6 +4,7 @@ import Controls from "./components/controls";
 import Head from "./components/head";
 import PageLayout from "./components/page-layout";
 import { Modal } from "./components/modal";
+import { Cart } from './components/cart';
 
 /**
  * Приложение
@@ -12,11 +13,14 @@ import { Modal } from "./components/modal";
  */
 function App({ store }) {
 
-  const { list, isCartOpen } = store.getState();
+  const { list, isCartOpen, cart } = store.getState();
 
   const callbacks = {
     onAddToCart: useCallback((code) => {
       store.addItemToCart(code);
+    }, [store]),
+    onDeleteFromCart: useCallback((code) => {
+      store.deleteProductFromCart(code);
     }, [store]),
     onOpenCart: useCallback(() => {
       store.openCart(true);
@@ -28,18 +32,23 @@ function App({ store }) {
 
   return (
     <PageLayout>
-      <Head title='Приложение на чистом JS' />
+      <Head title='Магазин' />
       <Controls
         openCart={callbacks.onOpenCart}
         countOfProductsInCart={store.getUniqueProductsCount()}
         totalPrice={store.getTotalPrice()}
       />
-      <List list={list} onAddToCart={callbacks.onAddToCart} />
+      <List list={list} actionCallback={callbacks.onAddToCart} buttonText='Добавить' />
       <Modal
         isOpen={isCartOpen}
         closeModal={callbacks.onCloseCart}
       >
-        Modal
+        <Cart
+          list={Object.values(cart)}
+          actionCallback={callbacks.onDeleteFromCart}
+          totalPrice={store.getTotalPrice()}
+          closeModal={callbacks.onCloseCart}
+        />
       </Modal>
     </PageLayout>
   );

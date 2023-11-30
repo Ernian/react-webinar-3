@@ -6,7 +6,7 @@ class Store {
     this.state = initState;
     this.listeners = []; // Слушатели изменений состояния
     this.state.cart = {}; // Корзина {code:{product,count}}
-    this.state.isCartOpen = false; // Корзина {code:{product,count}}
+    this.state.isCartOpen = false;
   }
 
   /**
@@ -48,13 +48,13 @@ class Store {
     const product = this.state.list.find(product => product.code === code)
     if (!product) return
 
-    if (this.isProductInCart(product.code)) {
+    if (!!this.state.cart[product.code]) {
       this.setState({
         ...this.state,
         cart: {
           ...this.state.cart,
           [product.code]: {
-            product,
+            ...product,
             count: ++this.state.cart[product.code].count
           }
         }
@@ -64,20 +64,11 @@ class Store {
         ...this.state,
         cart: {
           ...this.state.cart,
-          [product.code]: { product, count: 1 }
+          [product.code]: { ...product, count: 1 }
         }
       })
     }
   };
-
-  /**
-  * Проверяет находится ли товар в корзине
-  * @param code
-  * @returns {boolean}
-  */
-  isProductInCart(code) {
-    return Object.keys(this.state.cart).includes(code.toString())
-  }
 
   /**
    * Возвращает общую стоимость товаров в корзине
@@ -85,8 +76,8 @@ class Store {
    */
   getTotalPrice() {
     return Object.values(this.state.cart)
-      .reduce((totalPrice, { product, count }) => {
-        totalPrice += product.price * count
+      .reduce((totalPrice, product) => {
+        totalPrice += product.price * product.count
         return totalPrice
       }, 0)
   }
@@ -105,7 +96,7 @@ class Store {
    */
   deleteProductFromCart(code) {
     const products = Object.entries(this.state.cart)
-      .filter(([productCode, _]) => productCode !== code)
+      .filter(([productCode, _]) => productCode !== code.toString())
 
     this.setState({
       ...this.state,

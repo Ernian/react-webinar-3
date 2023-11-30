@@ -23,3 +23,14 @@
   justify-content: flex-end;
   padding: 20px 20px 20px 10px;
 }
+
+.Item-info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.Item-info span {
+  width: 100px;
+}

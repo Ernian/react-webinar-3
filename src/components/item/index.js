@@ -5,8 +5,8 @@ import './style.css';
 function Item(props) {
 
   const callbacks = {
-    onAddToCart: () => {
-      props.onAddToCart(props.item.code);
+    onButtonClick: () => {
+      props.actionCallback(props.item.code);
     }
   }
 
@@ -16,9 +16,16 @@ function Item(props) {
       <div className='Item-title'>
         {props.item.title}
       </div>
+      {
+        props.item.count &&
+        <div className='Item-info'>
+          <span>{props.item.price} &#8381;</span>
+          <span>{props.item.count} шт</span>
+        </div>
+      }
       <div className='Item-actions'>
-        <button onClick={callbacks.onAddToCart}>
-          Добавить
+        <button onClick={callbacks.onButtonClick}>
+          {props.buttonText}
         </button>
       </div>
     </div>

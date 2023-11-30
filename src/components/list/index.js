@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import Item from "../item";
 import './style.css';
 
-function List({ list, onAddToCart }) {
+function List({ list, actionCallback, buttonText }) {
   return (
     <div className='List'>{
       list.map(item =>
         <div key={item.code} className='List-item'>
-          <Item item={item} onAddToCart={onAddToCart} />
+          <Item item={item} actionCallback={actionCallback} buttonText={buttonText} />
         </div>
       )}
     </div>
@@ -23,8 +23,7 @@ List.propTypes = {
 };
 
 List.defaultProps = {
-  onAddToCart: () => {
-  },
+  onAddToCart: () => { },
 }
 
 export default React.memo(List);

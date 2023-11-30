@@ -22,7 +22,7 @@ export function Modal({ isOpen, closeModal, children }) {
     isOpen ?
       createPortal(
         <>
-          <div className='overlay' />
+          <div className='overlay' onClick={() => closeModal()} />
           <div className='Modal'>
             {children}
           </div>

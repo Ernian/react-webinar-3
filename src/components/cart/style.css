@@ -1,0 +1,20 @@
+.Cart {
+  max-width: 960px;
+  margin: 0 auto;
+  background-color: #fff;
+  box-sizing: border-box;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.Cart__empty {
+  margin: 22px 20px;
+}
+
+.Cart-total {
+  padding: 22px 155px 22px 10px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 50px;
+  font-weight: 700;
+}
