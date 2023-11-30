@@ -1,5 +1,3 @@
-import { generateCode } from "./utils";
-
 /**
  * Хранилище состояния приложения
  */
@@ -7,6 +5,7 @@ class Store {
   constructor(initState = {}) {
     this.state = initState;
     this.listeners = []; // Слушатели изменений состояния
+    this.state.cart = {}; // Корзина {code:{product,count}}
   }
 
   /**
@@ -41,46 +40,79 @@ class Store {
   }
 
   /**
-   * Добавление новой записи
-   */
-  addItem() {
-    this.setState({
-      ...this.state,
-      list: [...this.state.list, { code: generateCode(), title: 'Новая запись' }]
-    })
-  };
-
-  /**
-   * Удаление записи по коду
+   * Добавление товара в корзину
    * @param code
    */
-  deleteItem(code) {
-    this.setState({
-      ...this.state,
-      // Новый список, в котором не будет удаляемой записи
-      list: this.state.list.filter(item => item.code !== code)
-    })
-  };
+  addItemToCart(code) {
+    const product = this.state.list.find(product => product.code === code)
+    if (!product) return
 
-  /**
-   * Выделение записи по коду
-   * @param code
-   */
-  selectItem(code) {
-    this.setState({
-      ...this.state,
-      list: this.state.list.map(item => {
-        if (item.code === code) {
-          // Смена выделения и подсчёт
-          return {
-            ...item,
-            selected: !item.selected,
-            count: item.selected ? item.count : item.count + 1 || 1,
-          };
+    if (this.isProductInCart(product.code)) {
+      this.setState({
+        ...this.state,
+        cart: {
+          ...this.state.cart,
+          [product.code]: {
+            product,
+            count: ++this.state.cart[product.code].count
+          }
         }
-        // Сброс выделения если выделена
-        return item.selected ? { ...item, selected: false } : item;
       })
+    } else {
+      this.setState({
+        ...this.state,
+        cart: {
+          ...this.state.cart,
+          [product.code]: { product, count: 1 }
+        }
+      })
+    }
+  };
+
+  /**
+  * Проверяет находится ли товар в корзине
+  * @param code
+  * @returns {boolean}
+  */
+  isProductInCart(code) {
+    return Object.keys(this.state.cart).includes(code.toString())
+  }
+
+  /**
+   * Возвращает общую стоимость товаров в корзине
+   * @returns {number}
+   */
+  getTotalPrice() {
+    return Object.values(this.state.cart)
+      .reduce((totalPrice, { product, count }) => {
+        totalPrice += product.price * count
+        return totalPrice
+      }, 0)
+  }
+
+  /**
+   * Возвращает общее количество товаров в корзине
+   * @returns {number}
+   */
+  getTotalCount() {
+    return Object.values(this.state.cart)
+      .reduce((totalCount, { count }) => {
+        totalCount += count
+        return totalCount
+      }, 0)
+  }
+
+  /**
+   * Удаление товара из корзины
+   * @param code
+   */
+  deleteProductFromCart(code) {
+    const products = Object.entries(this.state.cart)
+      .filter(([productCode, _]) => productCode !== code)
+
+    this.setState({
+      ...this.state,
+      cart: Object.fromEntries(products)
     })
   }
 }

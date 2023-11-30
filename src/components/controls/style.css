@@ -2,4 +2,9 @@
   display: flex;
   justify-content: flex-end;
   padding: 20px;
+  gap: 24px;
+}
+
+.Controls-info span {
+  font-weight: 700;
 }
