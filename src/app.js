@@ -24,7 +24,7 @@ function App({ store }) {
       <Head title='Приложение на чистом JS' />
       <Controls
         openModal={callbacks.toDo}
-        countOfProductsInCart={store.getTotalCount()}
+        countOfProductsInCart={store.getUniqueProductsCount()}
         totalPrice={store.getTotalPrice()}
       />
       <List list={list} onAddToCart={callbacks.onAddToCart} />

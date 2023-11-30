@@ -94,12 +94,8 @@ class Store {
    * Возвращает общее количество товаров в корзине
    * @returns {number}
    */
-  getTotalCount() {
-    return Object.values(this.state.cart)
-      .reduce((totalCount, { count }) => {
-        totalCount += count
-        return totalCount
-      }, 0)
+  getUniqueProductsCount() {
+    return Object.keys(this.state.cart).length
   }
 
   /**
