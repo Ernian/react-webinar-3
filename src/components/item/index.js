@@ -19,7 +19,7 @@ function Item(props) {
       {
         props.item.count &&
         <div className='Item-info'>
-          <span>{props.item.price} &#8381;</span>
+          <span>{props.item.price.toLocaleString('ru')} &#8381;</span>
           <span>{props.item.count} шт</span>
         </div>
       }

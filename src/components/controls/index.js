@@ -17,7 +17,7 @@ function Controls({ openCart, countOfProductsInCart, totalPrice }) {
         В корзине:
         {
           countOfProductsInCart ?
-            <span> {countOfProductsInCart} {productsPlural} / {totalPrice}&#8381;</span> :
+            <span> {countOfProductsInCart} {productsPlural} / {totalPrice.toLocaleString('ru')}&#8381;</span> :
             <span> пусто</span>
         }
       </div>

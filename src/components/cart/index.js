@@ -18,7 +18,7 @@ export function Cart({ list, actionCallback, totalPrice, closeModal }) {
             />
             <div className='Cart-total'>
               <span>Итого</span>
-              <span>{totalPrice}&#8381;</span>
+              <span>{totalPrice.toLocaleString('ru')}&#8381;</span>
             </div>
           </>
           :
