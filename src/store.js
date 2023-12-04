@@ -55,7 +55,7 @@ class Store {
           ...this.state.cart,
           [product.code]: {
             ...product,
-            count: ++this.state.cart[product.code].count
+            count: this.state.cart[product.code].count + 1
           }
         }
       })
